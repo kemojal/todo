@@ -1,0 +1,110 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "\n            INSERT INTO users (first_name, last_name, email, password, registration_date)\n            VALUES ($1, $2, $3, $4, $5)\n            RETURNING *",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "id",
+        "type_info": "Int4"
+      },
+      {
+        "ordinal": 1,
+        "name": "password",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 2,
+        "name": "first_name",
+        "type_info": "Varchar"
+      },
+      {
+        "ordinal": 3,
+        "name": "last_name",
+        "type_info": "Varchar"
+      },
+      {
+        "ordinal": 4,
+        "name": "email",
+        "type_info": "Varchar"
+      },
+      {
+        "ordinal": 5,
+        "name": "profile_picture",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 6,
+        "name": "date_of_birth",
+        "type_info": "Date"
+      },
+      {
+        "ordinal": 7,
+        "name": "gender",
+        "type_info": "Varchar"
+      },
+      {
+        "ordinal": 8,
+        "name": "bio",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 9,
+        "name": "location",
+        "type_info": "Varchar"
+      },
+      {
+        "ordinal": 10,
+        "name": "registration_date",
+        "type_info": "Timestamp"
+      },
+      {
+        "ordinal": 11,
+        "name": "last_login_date",
+        "type_info": "Timestamp"
+      },
+      {
+        "ordinal": 12,
+        "name": "account_status",
+        "type_info": "Varchar"
+      },
+      {
+        "ordinal": 13,
+        "name": "verification_status",
+        "type_info": "Bool"
+      },
+      {
+        "ordinal": 14,
+        "name": "role",
+        "type_info": "Varchar"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Varchar",
+        "Varchar",
+        "Varchar",
+        "Text",
+        "Timestamp"
+      ]
+    },
+    "nullable": [
+      false,
+      false,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true
+    ]
+  },
+  "hash": "678008c6d3718408427b2f8f589d6c38c1ad6ebeb16aeffe7c973e2120822c82"
+}
