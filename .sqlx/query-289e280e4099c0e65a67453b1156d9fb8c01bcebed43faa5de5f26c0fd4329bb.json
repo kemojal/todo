@@ -1,0 +1,71 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "\n        UPDATE todo_items\n        SET title = coalesce($2, title),\n            description = coalesce($3, description),\n            completed = coalesce($4, completed),\n            status = coalesce($5, status),\n            priority = coalesce($6, priority),\n            due_date = coalesce($7, due_date)\n        WHERE id = $1 AND user_id = $8\n        RETURNING *",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "id",
+        "type_info": "Int4"
+      },
+      {
+        "ordinal": 1,
+        "name": "title",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 2,
+        "name": "description",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 3,
+        "name": "completed",
+        "type_info": "Bool"
+      },
+      {
+        "ordinal": 4,
+        "name": "user_id",
+        "type_info": "Int4"
+      },
+      {
+        "ordinal": 5,
+        "name": "status",
+        "type_info": "Varchar"
+      },
+      {
+        "ordinal": 6,
+        "name": "priority",
+        "type_info": "Int4"
+      },
+      {
+        "ordinal": 7,
+        "name": "due_date",
+        "type_info": "Timestamp"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Int4",
+        "Text",
+        "Text",
+        "Bool",
+        "Varchar",
+        "Int4",
+        "Timestamp",
+        "Int4"
+      ]
+    },
+    "nullable": [
+      false,
+      false,
+      true,
+      false,
+      true,
+      true,
+      true,
+      true
+    ]
+  },
+  "hash": "289e280e4099c0e65a67453b1156d9fb8c01bcebed43faa5de5f26c0fd4329bb"
+}

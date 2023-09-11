@@ -1,28 +1,21 @@
-use std::sync::{Arc, Mutex};
-
-
-
-use argon2::Argon2;
-use argon2::password_hash::SaltString;
-use argon2::password_hash::PasswordHasher;
-
+use std::sync::{Arc};
 
 use bcrypt::DEFAULT_COST;
 use bcrypt::hash;
-use rand::Rng;
 
 
-use axum::Extension;
+
+
 use axum::{Json, response::IntoResponse};
-use rand::thread_rng;
-use sqlx::{PgPool, Pool};
-use sqlx::postgres::Postgres;
+
+use sqlx::PgPool;
+
 use serde_json::json;
 use sqlx::{query, query_as};
 
-use axum::extract::{Path, State};
+use axum::extract::Path;
 
-use diesel::prelude::*;
+
 
 use crate::model::{ NewUser, User, EditUser, UserEmail};
 

@@ -28,7 +28,7 @@ pub async fn sign_in(Json(signin_data): Json<SignInData>, pool: Arc<PgPool>) -> 
     // Perform database query to check if the user exists and validate the password
     let user: Option<AuthUser> = query_as!(
         AuthUser,
-        "SELECT email, password, first_name, last_name FROM users WHERE email = $1",
+        "SELECT id, email, password, first_name, last_name FROM users WHERE email = $1",
         user_email
     )
     .fetch_optional(&*pool)
@@ -38,7 +38,7 @@ pub async fn sign_in(Json(signin_data): Json<SignInData>, pool: Arc<PgPool>) -> 
     // // Check if user exists and password is valid
     if let Some(user) = user {
        
-        if let (Some(email), Some(hashed_password), Some(first_name), Some(last_name)) = (user.email, user.password, user.first_name, user.last_name) {
+        if let (Some(id), Some(email), Some(hashed_password), Some(first_name), Some(last_name)) = (user.id, user.email, user.password, user.first_name, user.last_name) {
             if bcrypt::verify(&user_password, &hashed_password).expect("Failed to verify password") {
                 
                 let jwt_secret = "CfLTk9J0MA3jBF3/zuE4VUyN7djM2KMPy4otUpbkbE8=";
@@ -52,6 +52,7 @@ pub async fn sign_in(Json(signin_data): Json<SignInData>, pool: Arc<PgPool>) -> 
                     sub: first_name.to_owned(),
                     first_name: first_name.to_owned(),
                     last_name: last_name.to_owned(),
+                    user_id: id.to_owned(),
                     exp: 10000000000,
                 };
                 

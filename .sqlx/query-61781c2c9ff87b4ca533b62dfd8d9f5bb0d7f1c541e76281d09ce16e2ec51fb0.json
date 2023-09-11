@@ -1,6 +1,6 @@
 {
   "db_name": "PostgreSQL",
-  "query": "\n        UPDATE todo_items\n        SET title = coalesce($2, title),\n            description = coalesce($3, description),\n            completed = coalesce($4, completed)\n        WHERE id = $1\n        RETURNING *",
+  "query": "SELECT id, title, description, completed, user_id, status,priority, due_date  FROM todo_items  WHERE user_id = $1",
   "describe": {
     "columns": [
       {
@@ -27,14 +27,26 @@
         "ordinal": 4,
         "name": "user_id",
         "type_info": "Int4"
+      },
+      {
+        "ordinal": 5,
+        "name": "status",
+        "type_info": "Varchar"
+      },
+      {
+        "ordinal": 6,
+        "name": "priority",
+        "type_info": "Int4"
+      },
+      {
+        "ordinal": 7,
+        "name": "due_date",
+        "type_info": "Timestamp"
       }
     ],
     "parameters": {
       "Left": [
-        "Int4",
-        "Text",
-        "Text",
-        "Bool"
+        "Int4"
       ]
     },
     "nullable": [
@@ -42,8 +54,11 @@
       false,
       true,
       false,
+      true,
+      true,
+      true,
       true
     ]
   },
-  "hash": "c915a133f08138e79d74ab4f0312bbca84a9278b87553c58502244d64d6a3d86"
+  "hash": "61781c2c9ff87b4ca533b62dfd8d9f5bb0d7f1c541e76281d09ce16e2ec51fb0"
 }

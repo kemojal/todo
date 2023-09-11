@@ -1,8 +1,8 @@
-use std::sync::{Arc, Mutex};
+use std::sync::Arc;
 
 use axum::{
     
-     routing::{get, post, put, delete},  Json, Router, middleware::AddExtension, Extension, extract::Path
+     routing::{get, post, put, delete},  Json, Router,  extract::Path,  http::Method
     
 };
 
@@ -20,10 +20,11 @@ use db::create_db_pool;
 
 
 mod handlers;
-use handlers::{get_todos, create_todo,delete_todo, root, edit_todo};
+use handlers::{get_todos,get_user_todos, create_todo,delete_todo, root, edit_todo};
 
 
 mod user_handlers;
+use tower_http::cors::{CorsLayer, Any};
 use user_handlers::{create_user, get_users, edit_user, delete_user};
 
 
@@ -63,6 +64,17 @@ async fn main() {
 
     let authPool = shared_pool.clone();
     let signOutPool = shared_pool.clone();
+    let getUserTodosPool = shared_pool.clone();
+
+
+
+    let cors = CorsLayer::new()
+    // allow `GET` and `POST` when accessing the resource
+    .allow_methods([Method::GET, Method::POST, Method::PUT, Method::DELETE])
+    // allow requests from any origin
+    .allow_origin(Any);
+
+
 
     let app = Router::new()
     .route("/", get(root))
@@ -78,6 +90,12 @@ async fn main() {
         delete_user(path,  deleteUserPool)
     }))
     .route("/api/todos", get(move || get_todos(shared_pool.clone())))
+    .route("/api/user/todos/:id", get(
+        move |path: Path<i32>| {
+            // let pool_clone = shared_pool.clone().clone();
+            get_user_todos(path, getUserTodosPool)
+        }
+    ))
     .route("/api/todo/create", post(move |Json(new_todo): Json<NewTodo>| {
         create_todo(axum::Json(new_todo),pool_clone.clone())
     }))
@@ -94,15 +112,9 @@ async fn main() {
     .route("/api/auth/signout", post(move |Json(sign_out_data): Json<SignInData>| {
         sign_out(axum::Json(sign_out_data), signOutPool)
     }))
+    .layer(CorsLayer::permissive())
     ;
-    // .route("/api/todo/delete/:id", delete(delete_todo));
-    // .layer(Extension( shared_pool));
 
-    
-
-
-    
-    
     
     
     
